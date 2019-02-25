@@ -85,7 +85,7 @@ test:
 #
 production:
   <<: *default
-  database: weedsample_production
-  username: weedsample
-  password: <%= ENV['WEEDSAMPLE_DATABASE_PASSWORD'] %>
+  database: sprayrails_production
+  username: sprayrails
+  password: <%= ENV['SPRAYRAILS_DATABASE_PASSWORD'] %>
   pool: 15
