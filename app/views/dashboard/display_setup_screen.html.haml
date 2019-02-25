@@ -1,0 +1,29 @@
+.container-fluid
+  %h3
+    Setup
+  %form.ml-2.ml-sm-2.ml-md-2.ml-lg-4.ml-xl-4
+    .input-group.my-2.col-md-6.col-lg-6.col.xl-4
+      .input-group-prepend
+        %span.input-group-text{id: "sn_prepend_id"}
+          Serial Number
+      %input.form-control{"type" => "text", "aria-describedb" => "sn_prepend_id", "id" => "sn_id", "name" => "sn", "value" => "#{Kv.find_by( key: "sn").value}" }
+
+    .input-group.my-2.col-md-6.col-lg-6.col.xl-4
+      .input-group-prepend
+        %span.input-group-text{id: "latitude_prepend_id"}
+          Latitude
+      %input.form-control{"type" => "text", "aria-describedb" => "latitude_prepend_id", "id" => "latitude_id", "name" => "latitude", "value" => "#{Kv.find_by( key: "latitude").value}"}
+
+    .input-group.my-2.col-md-6.col-lg-6.col.xl-4
+      .input-group-prepend
+        %span.input-group-text{id: "sn_prepend_id"}
+          Longitude
+      %input.form-control{"type" => "text", "aria-describedb" => "longitude_prepend_id", "id" => "longitude_id", "name" => "longitude", "value" => "#{Kv.find_by( key: "longitude").value}"}
+
+
+    .row.my-2
+      %button.btn.btn-primary{type: "submit", formaction: "/update_setup"}
+        Update
+    .row.my-2
+      %a.btn.btn-secondary{href: "/display_main_screen"}
+        Back to main screen

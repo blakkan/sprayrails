@@ -1,34 +1,54 @@
 .container-fluid
   %h3
-    Check plants to kill
+    Select target plants
   %form.ml-2.ml-sm-2.ml-md-2.ml-lg-4.ml-xl-4
     .spud
       .row.form-check.col-12.col.md-12.col-lg-6.col-xl-6.pl-6
-        %input.form-check-input.mw-100{ type: "checkbox", id:"exampleCheck1", name: "radish_select" }
-        %label.btn.btn-success.mw-100{ for: "exampleCheck1" }
-          Radish
+        -if Dose.find_by(species: "radish").pump_time > 0.01
+          %input.form-check-input.mw-100{ type: "checkbox", id:"exampleCheck1", name: "radish_select", checked: "checked"}
+          %label.btn.btn-danger.mw-100{ for: "exampleCheck1" }
+            Radish
+        -else
+          %input.form-check-input.mw-100{ type: "checkbox", id:"exampleCheck1", name: "radish_select" }
+          %label.btn.btn-success.mw-100{ for: "exampleCheck1" }
+            Radish
       .row.form-check.col-12.col.md-12.col-lg-6.col-xl-6
-        %input.form-check-input.mw-100{ type: "checkbox", id: "exampleCheck2", name: "pea_select" }
-        %label.btn.btn-success.mw-100{ for: "exampleCheck2"}
-          Pea
+        -if Dose.find_by(species: "pea").pump_time > 0.01
+          %input.form-check-input.mw-100{ type: "checkbox", id: "exampleCheck2", name: "pea_select", checked: "checked" }
+          %label.btn.btn-danger.mw-100{ for: "exampleCheck2"}
+            Pea
+        -else
+          %input.form-check-input.mw-100{ type: "checkbox", id: "exampleCheck2", name: "pea_select"}
+          %label.btn.btn-success.mw-100{ for: "exampleCheck2"}
+            Pea
       .row.form-check.col-12.col.md-12.col-lg-6.col-xl-6
-        %input.form-check-input.mw-100{ type: "checkbox", id:"exampleCheck3", name: "morning_glory_select" }
-        %label.btn.btn-success.mw-100{ for: "exampleCheck3" }
-          Morning Glory
+        -if Dose.find_by(species: "morning_glory").pump_time > 0.01
+          %input.form-check-input.mw-100{ type: "checkbox", id: "exampleCheck3", name: "morning_glory_select", checked: "checked"}
+          %label.btn.btn-danger.mw-100{ for: "exampleCheck3" }
+            Morning Glory
+        -else
+          %input.form-check-input.mw-100{ type: "checkbox", id: "exampleCheck3", name: "morning_glory_select" }
+          %label.btn.btn-success.mw-100{ for: "exampleCheck3" }
+            Morning Glory
       .row.form-check.col-12.col.md-12.col-lg-6.col-xl-6
-        %input.form-check-input.mw-100{ type: "checkbox", id: "exampleCheck4", name: "marigold_select"}
-        %label.btn.btn-success.mw-100{ for: "exampleCheck4"}
-          Marigold
-      .row
-        %button.btn.btn-primary{type: "submit"}
+        -if Dose.find_by(species: "marigold").pump_time > 0.01
+          %input.form-check-input.mw-100{ type: "checkbox", id: "exampleCheck4", name: "marigold_select", checked: "checked"}
+          %label.btn.btn-danger.mw-100{ for: "exampleCheck4"}
+            Marigold
+        -else
+          %input.form-check-input.mw-100{ type: "checkbox", id: "exampleCheck4", name: "marigold_select" }
+          %label.btn.btn-success.mw-100{ for: "exampleCheck4"}
+            Marigold
+      .row.my-2
+        %button.btn.btn-primary{type: "submit", formaction: "/update_dosage"}
           Confirm weed selection
-      .row
+      .row.my-2
         %a.btn.btn-secondary{href: "/display_main_screen"}
           Back to main screen
 
 :javascript
   $('.form-check-input').change(function() {
-    if (this.checked) {
+    if (False && this.checked) {
         $('label[for="' + this.id + '"]').removeClass("btn-success").addClass("btn-danger");
     } else {
         $('label[for="' + this.id + '"]').removeClass("btn-danger").addClass("btn-success");

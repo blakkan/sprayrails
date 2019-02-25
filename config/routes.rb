@@ -4,16 +4,8 @@ Rails.application.routes.draw do
   get 'display_main_screen' => 'dashboard#display_main_screen'
   get 'display_select_weed_screen' => 'dashboard#display_select_weed_screen'
   get 'display_statistics_screen' => 'dashboard#display_statistics_screen'
-
-  get 'return_data/:start_date/:end_date' => 'dashboard#return_data'
-  get 'return_sample_data/:start_date/:end_date(.:format)' => 'dashboard#return_sample_data'
-
-  get 'display_upload_screen' => 'dashboard#display_upload_screen'
-  get 'display_simulator' => 'dashboard#display_simulator'
-  put 'upload_data' => 'dashboard#upload_data'
-  get 'reset_data' => 'dashboard#reset_data'
-  get 'completely_clear_data' => 'dashboard#completely_clear_data'
-
-  get 'return_sample_images/:sn(.:format)' => "dashboard#return_sample_images"
-
+  get 'display_setup_screen' => 'dashboard#display_setup_screen'
+  get 'update_setup' => 'dashboard#update_setup'
+  get 'update_dosage' => 'dashboard#update_dosage'
+  get 'transmit_and_clear_counts' => 'dashboard#transmit_and_clear_counts'
 end

@@ -1,17 +1,23 @@
 .container-fluid
   %h3
     Statistics
-%form.ml-2.ml-sm-2.ml-md-2.ml-lg-4.ml-xl-4
-  %p
-    Pump usage: 321
-  %p
-    Weed count: 1020
-  %p
-    Crop count: 3323
-  %form
-    .row
-      %button.btn.btn-primary{type: "submit"}
+  %form.ml-2.ml-sm-2.ml-md-2.ml-lg-4.ml-xl-4
+    %p
+      Radish Count: #{Kv.find_by( key: "radish").value}
+    %p
+      Pea Count: #{Kv.find_by( key: "pea").value}
+    %p
+      Marigold Count: #{Kv.find_by( key: "marigold").value}
+    %p
+      Morning Glory Count: #{Kv.find_by( key: "morning_glory").value}
+    %p
+      Unidentified Count: #{Kv.find_by( key: "unidentified").value}
+    %p
+      Pump time: #{Kv.find_by( key: "pump_time").value}
+
+    .row.my-2
+      %button.btn.btn-primary{type: "submit", formaction: "/transmit_and_clear_counts"}
         Transmit and clear counts
-    .row
+    .row.my-2
       %a.btn.btn-secondary{href: "/display_main_screen"}
         Back to main screen
