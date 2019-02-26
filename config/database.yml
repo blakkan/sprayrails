@@ -89,3 +89,10 @@ production:
   username: spray
   password: <%= ENV['SPRAYRAILS_DATABASE_PASSWORD'] %>
   pool: 15
+
+
+rpi:
+  <<: *default
+  adapter: sqlite3
+  database: db/rpi.sqlite3
+  pool: 5
