@@ -1,4 +1,8 @@
 require 'rubystats'
+if ENV['RAILS_ENV'] =~ /rpi/
+require 'rpi_gpio'
+end
+
 class DashboardController < ApplicationController
 
   def display_main_screen
@@ -15,8 +19,26 @@ class DashboardController < ApplicationController
 
   def update_setup
 
-    if params.key?("run_pump") && params[:run_pump] == "run_pump"
-      puts ("Run pump")
+    if params.key?("run_pump") &&
+  	params[:run_pump] == "run_pump" && ENV['RAILS_ENV'] =~ /rpi/
+
+	puts "run pump"
+
+	RPi::GPIO.set_numbering :bcm
+
+	RPi::GPIO.setup 23, :as => :input, :pull => :down
+	RPi::GPIO.setup 24, :as => :input, :pull => :up
+
+	RPi::GPIO.setup 21, :as => :output
+
+
+        RPi::GPIO.set_high 21
+        sleep 5
+        RPi::GPIO.set_low 21
+
+
+	RPi::GPIO.reset
+
     end
 
     Kv.find_by( key: "sn").update( value: params[:sn] )
