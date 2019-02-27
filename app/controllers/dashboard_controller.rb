@@ -14,6 +14,11 @@ class DashboardController < ApplicationController
   end
 
   def update_setup
+
+    if params.key?("run_pump") && params[:run_pump] == "run_pump"
+      puts ("Run pump")
+    end
+
     Kv.find_by( key: "sn").update( value: params[:sn] )
     Kv.find_by( key: "latitude").update( value: params[:latitude] )
     Kv.find_by( key: "longitude").update( value: params[:longitude] )
