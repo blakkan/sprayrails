@@ -1,4 +1,8 @@
 .container-fluid
   %h3
-    Current camera image
-  =image_tag("~/someimage.jpg", size: "320x200")
+    Current camera view
+  %br
+  =image_tag Picture.last.snapshot
+  .row.my-2
+    %a.btn.btn-secondary{href: "/display_main_screen"}
+      Back to main screen
