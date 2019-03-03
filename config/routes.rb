@@ -8,4 +8,5 @@ Rails.application.routes.draw do
   get 'update_setup' => 'dashboard#update_setup'
   get 'update_dosage' => 'dashboard#update_dosage'
   get 'transmit_and_clear_counts' => 'dashboard#transmit_and_clear_counts'
+  get 'display_camera_screen' => 'dashboard#display_camera_screen'
 end

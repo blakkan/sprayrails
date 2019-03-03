@@ -17,6 +17,17 @@ class DashboardController < ApplicationController
   def display_setup_screen
   end
 
+  def display_camera_screen
+
+	if ENV['RAILS_ENV'] =~ /rpi/
+		puts "making still"
+		system("raspistill -t 10 -n -o ~/someimage.jpg")
+	else
+		puts "using ubuntu capture"
+	end
+
+  end
+
   def update_setup
 
     if params.key?("run_pump") &&
