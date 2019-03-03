@@ -19,17 +19,15 @@ class DashboardController < ApplicationController
 
   def display_camera_screen
 
-	if ENV['RAILS_ENV'] =~ /rpi/
-		puts "making still"
-		system("raspistill -t 10 -n -o /home/pi/someimage.jpg")
-    Picture.create!(url: "nothing", sn: "nothing", lon: 0.0, lat: 0.0).snapshot.
+    if ENV['RAILS_ENV'] =~ /rpi/
+      system("raspistill -t 10 -gw 1800,1200,200,200 -sh 80 -h 200 -w 200  -n -o /home/pi/someimage.jpg")
+      Picture.create!(url: "nothing", sn: "nothing", lon: 0.0, lat: 0.0).snapshot.
       attach(io: File.open('/home/pi/someimage.jpg'), filename: 'someimage.jpg')
-	else
-		puts "using ubuntu capture"
-    system("fswebcam -r 640x480 --jpeg 85 -D 1 /home/john/someimage.jpg -d /dev/video0")
-    Picture.create!(url: "nothing", sn: "nothing", lon: 0.0, lat: 0.0).snapshot.
+    else
+      system("fswebcam -r 640x480 --jpeg 85 -D 1 /home/john/someimage.jpg -d /dev/video0")
+      Picture.create!(url: "nothing", sn: "nothing", lon: 0.0, lat: 0.0).snapshot.
       attach(io: File.open('/home/john/someimage.jpg'), filename: 'someimage.jpg')
-	end
+    end
 
   end
 
@@ -44,6 +42,7 @@ class DashboardController < ApplicationController
 
 	RPi::GPIO.setup 23, :as => :input, :pull => :down
 	RPi::GPIO.setup 24, :as => :input, :pull => :up
+
 
 	RPi::GPIO.setup 21, :as => :output
 
