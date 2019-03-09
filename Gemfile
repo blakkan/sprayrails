@@ -67,7 +67,7 @@ group :test do
 end
 
 group :rpi do
-  #gem 'sqlite3', '~> 1.3.6'
+  gem 'sqlite3', '~> 1.3.6' #may need to remove when running other env.
   gem 'rpi_gpio'
 end
 

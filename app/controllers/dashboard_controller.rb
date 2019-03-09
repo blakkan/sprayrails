@@ -20,16 +20,27 @@ class DashboardController < ApplicationController
   def display_camera_screen
 
     if ENV['RAILS_ENV'] =~ /rpi/
-      system("raspistill -t 10 -gw 1800,1200,200,200 -sh 80 -h 200 -w 200  -n -o /home/pi/someimage.jpg")
+      system("raspistill -t 10 -gw 1800,1200,200,200 -sh 80 -h 200 -w 200  -n -o /home/pi/current_image.jpg")
       Picture.create!(url: "nothing", sn: "nothing", lon: 0.0, lat: 0.0).snapshot.
-      attach(io: File.open('/home/pi/someimage.jpg'), filename: 'someimage.jpg')
+      attach(io: File.open('/home/pi/current_image.jpg'), filename: 'current_image.jpg')
     else
       system("fswebcam -r 640x480 --jpeg 85 -D 1 /home/john/someimage.jpg -d /dev/video0")
       Picture.create!(url: "nothing", sn: "nothing", lon: 0.0, lat: 0.0).snapshot.
-      attach(io: File.open('/home/john/someimage.jpg'), filename: 'someimage.jpg')
+      attach(io: File.open('/home/john/current_image.jpg'), filename: 'current_image.jpg')
     end
 
   end
+
+  def display_current_image_classification
+    puts "About to write\n"
+    $classifier.write("/home/pi/current_image.jpg\n")
+    puts "About to read\n"
+    @classification = $classifier.readline
+    @class_items = @classification.split(/ probability: /)
+    puts "Did the read\n"
+
+  end
+
 
   def update_setup
 
