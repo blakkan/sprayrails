@@ -39,11 +39,15 @@ class DashboardController < ApplicationController
   def display_current_image_classification
     puts "About to write\n"
     puts File.absolute_path('current_image.jpg') + "\n"
-    $classifier.write(File.absolute_path('current_image.jpg') + "\n")
-    puts "About to read\n"
-    @classification = $classifier.readline
-    @class_items = @classification.split(/ probability: /)
-    puts "Did the read\n"
+    if $classifier.nil?
+      @class_items = ["No Classifier Running", 1.0]
+    else
+      $classifier.write(File.absolute_path('current_image.jpg') + "\n")
+      puts "About to read\n"
+      @classification = $classifier.readline
+      @class_items = @classification.split(/ probability: /)
+      puts "Did the read\n"
+    end
 
   end
 
