@@ -29,7 +29,7 @@ class DashboardController < ApplicationController
       Picture.create!(url: "nothing", sn: "nothing", lon: 0.0, lat: 0.0).snapshot.
       attach(io: File.open(File.absolute_path('current_image.jpg')), filename: 'current_image.jpg')
     else  #take a picture from video camera
-      system("fswebcam -r 640x480 --jpeg 85 -D 1 ~/someimage.jpg -d /dev/video0")
+      system("fswebcam -r 640x480 --jpeg 85 -D 1 #{File.absolute_path("current_image.jpg")} -d /dev/video0")
       Picture.create!(url: "nothing", sn: "nothing", lon: 0.0, lat: 0.0).snapshot.
       attach(io: File.open(File.absolute_path('current_image.jpg')), filename: 'current_image.jpg')
     end
