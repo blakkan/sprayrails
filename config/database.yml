@@ -87,7 +87,7 @@ production:
   <<: *default
   database: sprayrails_production
   username: spray
-  password: <%= ENV['SPRAYRAILS_DATABASE_PASSWORD'] %>
+  password: <%= ENV['SPRAYRAILS_DATABASE_PASSWORD'] || 'spray' %>
   pool: 15
 
 
