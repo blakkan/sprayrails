@@ -9,4 +9,5 @@ Rails.application.routes.draw do
   get 'update_dosage' => 'dashboard#update_dosage'
   get 'transmit_and_clear_counts' => 'dashboard#transmit_and_clear_counts'
   get 'display_camera_screen' => 'dashboard#display_camera_screen'
+  get 'display_current_image_classification' => 'dashboard#display_current_image_classification'
 end

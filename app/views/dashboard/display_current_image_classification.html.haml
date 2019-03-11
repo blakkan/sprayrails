@@ -1,9 +1,14 @@
 .container-fluid
   %h3
-    Current camera view
+    Classification
   %form.ml-2.ml-sm-2.ml-md-2.ml-lg-4.ml-xl-4
     .row.my-2
       =image_tag Picture.last.snapshot
+
+    .row.my-2
+      ="#{@class_items[0]}"
+    .row.my-2
+      ="Probability: #{(@class_items[1].to_f * 100.0).round(2)}%"
     .row.my-2
       %a.btn.btn-primary{href: "/display_camera_screen"}
         Current camera view

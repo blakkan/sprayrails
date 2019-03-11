@@ -19,17 +19,38 @@ class DashboardController < ApplicationController
 
   def display_camera_screen
 
-    if ENV['RAILS_ENV'] =~ /rpi/
-      system("raspistill -t 10 -gw 1800,1200,200,200 -sh 80 -h 200 -w 200  -n -o /home/pi/someimage.jpg")
+    if Rails.env.rpi?  #take a real picture from RPi camera
+      system("raspistill -t 10 -gw 1800,1200,200,200 -sh 80 -h 200 -w 200  -n -o #{File.absolute_path('current_image.jpg')} ")
       Picture.create!(url: "nothing", sn: "nothing", lon: 0.0, lat: 0.0).snapshot.
-      attach(io: File.open('/home/pi/someimage.jpg'), filename: 'someimage.jpg')
-    else
-      system("fswebcam -r 640x480 --jpeg 85 -D 1 /home/john/someimage.jpg -d /dev/video0")
+      attach(io: File.open(File.absolute_path('current_image.jpg')), filename: 'current_image.jpg')
+    elsif Rails.env.production? #if running from heroku, just get a random element from the library file
+      the_filename = %w( public/sample_dirt.JPG public/sample_marigold.JPG public/sample_morning_glory.JPG public/sample_pea.JPG public/sample_radish.JPG).sample
+      system("cp #{the_filename} #{File.absolute_path("current_image.jpg")}")
       Picture.create!(url: "nothing", sn: "nothing", lon: 0.0, lat: 0.0).snapshot.
-      attach(io: File.open('/home/john/someimage.jpg'), filename: 'someimage.jpg')
+      attach(io: File.open(File.absolute_path('current_image.jpg')), filename: 'current_image.jpg')
+    else  #take a picture from video camera
+      system("fswebcam -r 640x480 --jpeg 85 -D 1 ~/someimage.jpg -d /dev/video0")
+      Picture.create!(url: "nothing", sn: "nothing", lon: 0.0, lat: 0.0).snapshot.
+      attach(io: File.open(File.absolute_path('current_image.jpg')), filename: 'current_image.jpg')
     end
 
   end
+
+  def display_current_image_classification
+    puts "About to write\n"
+    puts File.absolute_path('current_image.jpg') + "\n"
+    if $classifier.nil?
+      @class_items = ["No Classifier Running", 1.0]
+    else
+      $classifier.write(File.absolute_path('current_image.jpg') + "\n")
+      puts "About to read\n"
+      @classification = $classifier.readline
+      @class_items = @classification.split(/ probability: /)
+      puts "Did the read\n"
+    end
+
+  end
+
 
   def update_setup
 
