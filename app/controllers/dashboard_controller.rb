@@ -29,7 +29,7 @@ class DashboardController < ApplicationController
       Picture.create!(url: "nothing", sn: "nothing", lon: 0.0, lat: 0.0).snapshot.
       attach(io: File.open(File.absolute_path('current_image.jpg')), filename: 'current_image.jpg')
     else  #take a picture from video camera
-      system("fswebcam -r 640x480 --jpeg 85 -D 1 #{File.absolute_path("current_image.jpg")} -d /dev/video0")
+      system("fswebcam -r 640x480 --jpeg 85 -D 1 ~/someimage.jpg -d /dev/video0")
       Picture.create!(url: "nothing", sn: "nothing", lon: 0.0, lat: 0.0).snapshot.
       attach(io: File.open(File.absolute_path('current_image.jpg')), filename: 'current_image.jpg')
     end
@@ -37,27 +37,64 @@ class DashboardController < ApplicationController
   end
 
   def display_current_image_classification
-    puts "About to write\n"
-    puts File.absolute_path('current_image.jpg') + "\n"
+    #puts "About to write\n"
+    #puts File.absolute_path('current_image.jpg') + "\n"
     if $classifier.nil?
       @class_items = ["No Classifier Running", 1.0]
     else
       $classifier.write(File.absolute_path('current_image.jpg') + "\n")
-      puts "About to read\n"
+      #puts "About to read\n"
       @classification = $classifier.readline
       @class_items = @classification.split(/ probability: /)
-      puts "Did the read\n"
+      #puts "Did the read\n"
     end
 
+  end
+
+  def display_current_image_classification_and_spray
+    #puts "About to write\n"
+    #puts File.absolute_path('current_image.jpg') + "\n"
+    if $classifier.nil?
+      @class_items = ["No Classifier Running", 1.0]
+    else
+      $classifier.write(File.absolute_path('current_image.jpg') + "\n")
+      #puts "About to read\n"
+      @classification = $classifier.readline
+      @class_items = @classification.split(/ probability: /)
+      #puts "Did the read\n"
+      if (@class_items[0] =~ /(arigo)|(orning)/ ) && ( ENV['RAILS_ENV'] =~ /rpi/ )
+
+
+	RPi::GPIO.set_numbering :bcm
+
+	RPi::GPIO.setup 23, :as => :input, :pull => :down
+	RPi::GPIO.setup 24, :as => :input, :pull => :up
+
+
+	RPi::GPIO.setup 21, :as => :output
+
+
+        RPi::GPIO.set_high 21
+        sleep 1
+        RPi::GPIO.set_low 21
+
+
+	RPi::GPIO.reset
+
+      end
+    end
+
+
+    render :display_current_image_classification
   end
 
 
   def update_setup
 
     if params.key?("run_pump") &&
-  	params[:run_pump] == "run_pump" && ENV['RAILS_ENV'] =~ /rpi/
+  	params[:run_pump] == "run_pump" && Rails.environment.rpi?
 
-	puts "run pump"
+	#puts "run pump"
 
 	RPi::GPIO.set_numbering :bcm
 

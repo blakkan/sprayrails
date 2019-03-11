@@ -10,4 +10,5 @@ Rails.application.routes.draw do
   get 'transmit_and_clear_counts' => 'dashboard#transmit_and_clear_counts'
   get 'display_camera_screen' => 'dashboard#display_camera_screen'
   get 'display_current_image_classification' => 'dashboard#display_current_image_classification'
+  get 'display_current_image_classification_and_spray' => 'dashboard#display_current_image_classification_and_spray'
 end
