@@ -87,14 +87,15 @@ class DashboardController < ApplicationController
       end
 
       # Now update the counts
-      old_count_record = Kv.find_by( key: @class_items[0])
+      plant = @class_items[0].split(/\s+/)[-1]
+      old_count_record = Kv.find_by( key: plant)
       old_count_number = old_count_record.value
-      old_count_record.update_attribute( value: (old_count_number.to_i + 1).to_s )
+      old_count_record.update_attribute( :value, (old_count_number.to_i + 1).to_s )
 
       #FIXME And update the pump time (just one second, should be from database )
       old_pump_record = Kv.find_by( key: 'pump_time')
       old_pump_value = old_pump_record.value
-      old_pump_record.update_attribute( value: (old_pump_value + 1.0))
+      old_pump_record.update_attribute( :value, (old_pump_value.to_f + 1.0))
     end
 
     render :display_current_image_classification
@@ -105,7 +106,7 @@ class DashboardController < ApplicationController
   def update_setup
 
     if params.key?("run_pump") &&
-  	  params[:run_pump] == "run_pump" && Rails.environment.rpi?
+  	  params[:run_pump] == "run_pump" && Rails.env.rpi?
 
 	#puts "run pump"
 
@@ -146,6 +147,7 @@ class DashboardController < ApplicationController
     # send it to the fixed address location
     uri = URI("https://weedsample.herokuapp.com/upload_data_rest")
     http = Net::HTTP.new(uri.host, uri.port)
+    http.use_ssl = true
     req = Net::HTTP::Post.new(uri.path, {'Content-Type' => 'application/json'})  #managing our own conversion
     assembling_body = { "json_entry" => {}}
 
