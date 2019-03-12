@@ -144,7 +144,7 @@ class DashboardController < ApplicationController
   def transmit_and_clear_counts
 
     # send it to the fixed address location
-    uri = URI("http://127.0.0.1:3001/upload_data_rest")
+    uri = URI("https://weedsample.herokuapp.com/upload_data_rest")
     http = Net::HTTP.new(uri.host, uri.port)
     req = Net::HTTP::Post.new(uri.path, {'Content-Type' => 'application/json'})  #managing our own conversion
     assembling_body = { "json_entry" => {}}
