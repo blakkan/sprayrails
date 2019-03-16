@@ -105,6 +105,7 @@ GEM
     crass (1.0.4)
     domain_name (0.5.20180417)
       unf (>= 0.0.5, < 1.0.0)
+    epoll (0.3.0)
     erubi (1.8.0)
     erubis (2.7.0)
     execjs (2.7.0)
@@ -279,6 +280,7 @@ DEPENDENCIES
   chromedriver-helper
   cloudinary
   coffee-rails (~> 4.2)
+  epoll
   haml-rails (~> 1.0.0)
   image_processing (~> 1.2)
   jbuilder (~> 2.5)

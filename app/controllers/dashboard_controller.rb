@@ -1,6 +1,6 @@
 require 'rubystats'
-if ENV['RAILS_ENV'] =~ /rpi/
-require 'rpi_gpio'
+if Rails.env.rpi?
+  require 'rpi_gpio'
 end
 
 require 'net/http'
@@ -69,20 +69,15 @@ class DashboardController < ApplicationController
 
 
       #puts "Did the read\n"
-      if (@class_items[0] =~ /(arigo)|(orning)/ ) && ( ENV['RAILS_ENV'] =~ /rpi/ )
+      if ((@class_items[0] =~ /(arigo)|(orning)/ ) && Rails.env.rpi? )
 
-	        RPi::GPIO.set_numbering :bcm
 
-	        RPi::GPIO.setup 23, :as => :input, :pull => :down
-	        RPi::GPIO.setup 24, :as => :input, :pull => :up
-
-	        RPi::GPIO.setup 21, :as => :output
 
           RPi::GPIO.set_high 21
           sleep 1
           RPi::GPIO.set_low 21
 
-	        RPi::GPIO.reset
+#	  RPi::GPIO.reset
 
       end
 
@@ -110,18 +105,18 @@ class DashboardController < ApplicationController
 
 	#puts "run pump"
 
-    	RPi::GPIO.set_numbering :bcm
+  #  	RPi::GPIO.set_numbering :bcm
 
-	    RPi::GPIO.setup 23, :as => :input, :pull => :down
-	    RPi::GPIO.setup 24, :as => :input, :pull => :up
+  #	    RPi::GPIO.setup 23, :as => :input, :pull => :down
+  #	    RPi::GPIO.setup 24, :as => :input, :pull => :up
 
-	    RPi::GPIO.setup 21, :as => :output
+  #	    RPi::GPIO.setup 21, :as => :output
 
       RPi::GPIO.set_high 21
       sleep 5
       RPi::GPIO.set_low 21
 
-	    RPi::GPIO.reset
+#	    RPi::GPIO.reset
 
     end
 

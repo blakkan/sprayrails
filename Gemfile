@@ -69,6 +69,7 @@ end
 group :rpi do
   gem 'sqlite3', '~> 1.3.6' #may need to remove when running other env.
   gem 'rpi_gpio'
+  gem 'epoll'
 end
 
 group :production do
