@@ -11,4 +11,5 @@ Rails.application.routes.draw do
   get 'display_camera_screen' => 'dashboard#display_camera_screen'
   get 'display_current_image_classification' => 'dashboard#display_current_image_classification'
   get 'display_current_image_classification_and_spray' => 'dashboard#display_current_image_classification_and_spray'
+  get 'do_full_cycle' => 'dashboard#do_full_cycle'
 end

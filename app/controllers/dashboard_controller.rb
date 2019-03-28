@@ -23,9 +23,9 @@ class DashboardController < ApplicationController
   def display_camera_screen
 
     if Rails.env.rpi?  #take a real picture from RPi camera
-      system("raspistill -t 10 -gw 1800,1200,200,200 -sh 80 -h 200 -w 200  -n -o #{File.absolute_path('current_image.jpg')} ")
+      system("raspistill -t 10 -gw 1800,1200,200,200 -sh 80 -h 200 -w 200  -n -o #{File.absolute_path('/tmp/ram/current_image.jpg')} ")
       Picture.create!(url: "nothing", sn: "nothing", lon: 0.0, lat: 0.0).snapshot.
-      attach(io: File.open(File.absolute_path('current_image.jpg')), filename: 'current_image.jpg')
+      attach(io: File.open(File.absolute_path('/tmp/ram/current_image.jpg')), filename: 'current_image.jpg')
     elsif Rails.env.production? #if running from heroku, just get a random element from the library file
       the_filename = %w( public/sample_dirt.JPG public/sample_marigold.JPG public/sample_morning_glory.JPG public/sample_pea.JPG public/sample_radish.JPG).sample
       system("cp #{the_filename} #{File.absolute_path("current_image.jpg")}")
@@ -45,7 +45,7 @@ class DashboardController < ApplicationController
     if $classifier.nil?
       @class_items = ["No Classifier Running", 1.0]
     else
-      $classifier.write(File.absolute_path('current_image.jpg') + "\n")
+      $classifier.write(File.absolute_path('/tmp/ram/current_image.jpg') + "\n")
       #puts "About to read\n"
       @classification = $classifier.readline
       @class_items = @classification.split(/ probability: /)
@@ -60,7 +60,7 @@ class DashboardController < ApplicationController
     if $classifier.nil?
       @class_items = ["No Classifier Running", 1.0]
     else
-      $classifier.write(File.absolute_path('current_image.jpg') + "\n")
+      $classifier.write(File.absolute_path('/tmp/ram/current_image.jpg') + "\n")
       #puts "About to read\n"
       @classification = $classifier.readline
       @class_items = @classification.split(/ probability: /)
@@ -94,6 +94,68 @@ class DashboardController < ApplicationController
     end
 
     render :display_current_image_classification
+
+  end
+
+  def do_full_cycle
+
+
+    if Rails.env.rpi?  #take a real picture from RPi camera
+      system("raspistill -t 10 -gw 1800,1200,200,200 -sh 80 -h 200 -w 200  -n -o #{File.absolute_path('/tmp/ram/current_image.jpg')} ")
+      Picture.create!(url: "nothing", sn: "nothing", lon: 0.0, lat: 0.0).snapshot.
+      attach(io: File.open(File.absolute_path('/tmp/ram/current_image.jpg')), filename: 'current_image.jpg')
+    elsif Rails.env.production? #if running from heroku, just get a random element from the library file
+      the_filename = %w( public/sample_dirt.JPG public/sample_marigold.JPG public/sample_morning_glory.JPG public/sample_pea.JPG public/sample_radish.JPG).sample
+      system("cp #{the_filename} #{File.absolute_path("current_image.jpg")}")
+      Picture.create!(url: "nothing", sn: "nothing", lon: 0.0, lat: 0.0).snapshot.
+      attach(io: File.open(File.absolute_path('current_image.jpg')), filename: 'current_image.jpg')
+    else  #take a picture from video camera
+      system("fswebcam -r 640x480 --jpeg 85 -D 1 ~/someimage.jpg -d /dev/video0")
+      Picture.create!(url: "nothing", sn: "nothing", lon: 0.0, lat: 0.0).snapshot.
+      attach(io: File.open(File.absolute_path('current_image.jpg')), filename: 'current_image.jpg')
+    end
+
+
+    #puts "About to write\n"
+    #puts File.absolute_path('current_image.jpg') + "\n"
+    if $classifier.nil?
+      @class_items = ["No Classifier Running", 1.0]
+    else
+      $classifier.write(File.absolute_path('/tmp/ram/current_image.jpg') + "\n")
+      #puts "About to read\n"
+      @classification = $classifier.readline
+      @class_items = @classification.split(/ probability: /)
+
+      #at this point, @class_items[0] has the plant, and @class_items[1] has the probabilitiy
+
+
+      #puts "Did the read\n"
+      if ((@class_items[0] =~ /(arigo)|(orning)/ ) && Rails.env.rpi? )
+
+
+
+          RPi::GPIO.set_high 21
+          sleep 1
+          RPi::GPIO.set_low 21
+
+#	  RPi::GPIO.reset
+
+      end
+
+      # Now update the counts
+      plant = @class_items[0].split(/\s+/)[-1]
+      old_count_record = Kv.find_by( key: plant)
+      old_count_number = old_count_record.value
+      old_count_record.update_attribute( :value, (old_count_number.to_i + 1).to_s )
+
+      #FIXME And update the pump time (just one second, should be from database )
+      old_pump_record = Kv.find_by( key: 'pump_time')
+      old_pump_value = old_pump_record.value
+      old_pump_record.update_attribute( :value, (old_pump_value.to_f + 1.0))
+    end
+
+    render :display_current_image_classification
+
 
   end
 

@@ -60,7 +60,7 @@ Thread.new {
    #puts "Pre Saw #{new_val} after transition on 24"
    if (Time.now > ($button_last_time + 0.200)) && (new_val == '0')
     puts "Saw #{new_val} after transition on 24"
-    system("curl http://localhost:8080/update_setup?run_pump=run_pump > /dev/null 2> /dev/null")
+    system("curl http://localhost:8080/do_full_cycle > /dev/null 2> /dev/null")
   end
 end
 }
