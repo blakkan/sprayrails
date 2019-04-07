@@ -1,15 +1,15 @@
-require 'rpi_gpio'
+#require 'rpi_gpio'
 
 # Setup GPIO at rails start
-RPi::GPIO.reset
-RPi::GPIO.set_numbering :bcm
-RPi::GPIO.setup 23, :as => :input, :pull => :down
-RPi::GPIO.setup 24, :as => :input, :pull => :up
-RPi::GPIO.setup 21, :as => :output
-RPi::GPIO.set_low 21
+#RPi::GPIO.reset
+#RPi::GPIO.set_numbering :bcm
+#RPi::GPIO.setup 23, :as => :input, :pull => :down
+#RPi::GPIO.setup 24, :as => :input, :pull => :up
+#RPi::GPIO.setup 21, :as => :output
+#RPi::GPIO.set_low 21
 
 # Release GPIO when rails is done
-END {RPi::GPIO.reset}   #and release all
+#END {RPi::GPIO.reset}   #and release all
 
 # Register the thing to do when we get a transition on our input GPIO
 # stolen from tenderlove
@@ -32,6 +32,7 @@ def watch( pin, on )
     retries += 1
     retry
   end
+
 
   # Read the initial pin value and yield it to the block
   fd = File.open "/sys/class/gpio/gpio#{pin}/value", 'r'
@@ -57,10 +58,14 @@ end
 Thread.new {
   $button_last_time = Time.now
   watch(24, 'falling') do |new_val|
-   #puts "Pre Saw #{new_val} after transition on 24"
    if (Time.now > ($button_last_time + 0.200)) && (new_val == '0')
     puts "Saw #{new_val} after transition on 24"
+    #logger.info "Saw #{new_val} after transition on 24"
     system("curl http://localhost:8080/do_full_cycle > /dev/null 2> /dev/null")
   end
 end
 }
+
+loop do
+   sleep 1
+end

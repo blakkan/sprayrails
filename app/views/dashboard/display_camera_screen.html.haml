@@ -6,13 +6,16 @@
       =image_tag Picture.last.snapshot
     .row.my-2
       %a.btn.btn-primary{href: "/display_camera_screen"}
-        Current camera view
+        Capture new image
     .row.my-2
       %a.btn.btn-primary{href: "/display_current_image_classification"}
-        Classify
+        Classify current image
+    .row.my-2
+      %a.btn.btn-danger{href: "/display_current_image_classification_and_spray"}
+        Classify current and spray
     .row.my-2
       %a.btn.btn-danger{href: "/do_full_cycle"}
-        Take image and spray
+        Capture, classify, spray
     .row.my-2
       %a.btn.btn-secondary{href: "/display_main_screen"}
         Back to main screen
