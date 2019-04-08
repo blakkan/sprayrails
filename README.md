@@ -1,24 +1,38 @@
-# README
+# Sprayrails - Intelligent Herbicide Dispenser   (W210, Spring 2018, Team: John, Jason, Stan, Zach)
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+This is the sprayer-resident rails app for the herbicide dispenser.  It runs on both the Raspberry Pi's rasberrian
+OS, and will also run under Ubuntu (actually Xubuntu) locally, and will also run in the clound on Heroku.
 
-Things you may want to cover:
+When running locally on Ubuntu or in the cloud, the pump and camera actions are simulted.
 
-* Ruby version
+Purpose of running in Ubuntu is just that the devlopment PC is faster than the Rpi, and more developoment
+tools are available, but development is possible solely using Rpi.
 
-* System dependencies
+Purpose of running in the cloud was for our User testing (and alow our in-class demonstration of A/B user interface
+testing.)
 
-* Configuration
+# Environment
 
-* Database creation
+* For Raspberry Pi, its quite difficult to natively install a ruby 2.3.1 (recommended, since this is
+the default in Ubuntu 18.01, as well as the defaultd/recommended by Heroku.  So RVM is used to build
+the version of ruby.   Therefore to run the rails app, it needs to start from a login shell
+(e.g. /bin/bash --login)
 
-* Database initialization
+* The classifier runs in a separate process, and is written in python.  That python needs to run in
+a virtual environment.  (It's "venv" on the raspberry pi)
 
-* How to run the test suite
+* Because the "user trigger" (the button pushed to cycle the camera/classifier/spray routine) goes
+through the rails app (by running curl on a particular address), we want to fix the rails port
+address at a conventional 8080.   This could be changed, but was picked by convention (e.g. could
+move to port 80 if desired)
 
-* Services (job queues, cache servers, search engines, etc.)
+* We're using the new rails storage feature for image data.   On the raspberry pi or local
+Ubuntu, it just uses the
+local storage directory.  But if running on Heroku, take note that thes uses an AWS S3 bucket.  Review
+the rails *storage* feature for details.
 
-* Deployment instructions
+* Hardware control for the pump and for the button are a bit different; it is split between the (better)
+GPIO interface and the (soon to be depreicated) "sysfs" interface.   In the long term, will want to move
+away from sysfs.
 
-* ...
+
