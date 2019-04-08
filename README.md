@@ -39,7 +39,7 @@ away from sysfs.
 
 * Battery ($91  33Ah Lead acid deep cycle AGM)
 
-* Raspberry Pi ($35 Model 3B+)
+* Raspberry Pi ($35 Model 3 B+)
 
 * Pump ($25 Adafruit Industries 12V Peristaltic, includes tubing)
 
@@ -47,7 +47,7 @@ away from sysfs.
 
 * FET driver ($2  Internaional Rectifier IRL8721)
 
-* Diode (for FET flyback protection) ($0.03 1N4148 (commodity part, multi source)
+* Diode ($0.03 1N4148  commodity part for FET flyback protection, multi source)
 
 * Spray head ($3 Rainbird model 188  note: must be heated and formed with heat gun)
 
@@ -55,7 +55,7 @@ away from sysfs.
 
 * Rear wheels ($14 ea (qty two) Shepherd hardware model 9795 8 inch fixed caster wheel)
 
-* Lumber, reservoir, 3/8 inch carriage bolts, misc hardware, wire, adhesive (c$25 total)
+* Misc (c$25 total  Lumber, reservoir, bolts and other hardware, wire, pcb, adhesive)
 
 
 
