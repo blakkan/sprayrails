@@ -35,8 +35,27 @@ the rails *storage* feature for details.
 GPIO interface and the (soon to be depreicated) "sysfs" interface.   In the long term, will want to move
 away from sysfs.
 
-# Notes
+# Notes on hardware:  Bill of materials
 
+* Battery ($91  33Ah Lead acid deep cycle AGM)
+
+* Raspberry Pi ($35 Model 3B+)
+
+* Pump ($25 Adafruit Industries 12V Peristaltic, includes tubing)
+
+* Power converter ($7 Hobbywing 3A 12V to 5/6V converter)
+
+* FET driver ($2  Internaional Rectifier IRL8721
+
+* Diode (for FET flyback protection) ($0.03 1N4148 (commodity part, multi source)
+
+* Spray head ($3 Rainbird model 188  note: must be heated and formed with heat gun)
+
+* Front wheel ($24 Shepherd hardware model 9794 8 inch swivel caster wheel)
+
+* Rear wheels ($14 ea (qty two) Shepherd hardware model 9795 8 inch fixed caster wheel)
+
+* Lumber, reservoir, 3/8 inch carriage bolts, misc hardware, wire, adhesive (c$25 total)
 
 
 
