@@ -37,7 +37,6 @@ away from sysfs.
 
 # Notes
 
-* This started from another project template, so some of the older commit logs (i.e. pre 2019) are cruft 
-and may be disregarded.
+
 
 
