@@ -35,4 +35,9 @@ the rails *storage* feature for details.
 GPIO interface and the (soon to be depreicated) "sysfs" interface.   In the long term, will want to move
 away from sysfs.
 
+# Notes
+
+* This started from another project template, so some of the older commit logs (i.e. pre 2019) are cruft 
+and may be disregarded.
+
 
