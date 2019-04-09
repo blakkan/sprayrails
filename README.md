@@ -41,6 +41,8 @@ away from sysfs.
 
 * Raspberry Pi ($35 Model 3 B+)
 
+* Camera ($30 Arducam 5M pixel w/CS lens mount)
+
 * Pump ($25 Adafruit Industries 12V Peristaltic, includes tubing)
 
 * Power converter ($7 Hobbywing 3A 12V to 5/6V converter)
