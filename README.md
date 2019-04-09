@@ -45,7 +45,7 @@ away from sysfs.
 
 * Power converter ($7 Hobbywing 3A 12V to 5/6V converter)
 
-* FET driver ($2  Internaional Rectifier IRL8721)
+* FET driver ($2  Interntaional Rectifier IRL8721)
 
 * Diode ($0.03 1N4148  commodity part for FET flyback protection, multi source)
 
