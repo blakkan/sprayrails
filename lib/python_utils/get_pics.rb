@@ -1,7 +1,7 @@
 
 # the -5 below is number of days ago.
 
-x=`find ../../storage/ -mtime -5 -type f -printf "%T@ %Tc %p\n" | sort -n`.split(/\n/)
+x=`find ../../storage/ -mtime -1 -type f -printf "%T@ %Tc %p\n" | sort -n`.split(/\n/)
 
 x.each_with_index do |line, i|
  full_rel_name = line.split(/\s+/)[-1]
